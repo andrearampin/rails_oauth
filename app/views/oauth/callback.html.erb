@@ -1,0 +1,18 @@
+<h1 class="title">OAuth access details</h1>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @access_token.to_hash.each do |key, value| %>
+      <tr>
+        <td><%= key %></td>
+        <td><%= value %></td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>
+<a href="/" class="button is-danger">Back</a>

@@ -11,8 +11,21 @@ module PaymasterOauth
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.1
 
-    # Settings in config/environments/* take precedence over those specified here.
+    # Settings in config/environments/* take precedence over those specified
+    # here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
+
+    # example: bdfe2ffad2c6e5f5e19637ee8ceb46bf1c913e2
+    config.client_id = '<client_id>'
+
+    # example: bdfe2ffad2c6e5f5e19637ee8ceb46bf1c913e2
+    config.client_secret = '<client_secret>'
+
+    # example: http://lvh.me:3001/oauth/callback
+    config.redirect_uri = '<redirect_uri>'
+
+    # example: https://staging.airtax.com.au (OAuth provider)
+    config.site = '<site>'
   end
 end

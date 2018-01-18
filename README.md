@@ -1,24 +1,44 @@
-# README
+# OAuth client
+This OAuth2 client was developed with the only purpose of showcasing an OAuth2 connection with a custom provider ([Doorkeeper](https://github.com/doorkeeper-gem/doorkeeper)). However, this simple Ruby on Rails (5.x) application can be used with any other OAuth2 provider.
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Setup
 
-Things you may want to cover:
+Clone this repository and install any missing gem
 
-* Ruby version
+```
+$ git clone git@github.com:andrearampin/rails_oauth.git
+$ cd rails_oauth
+$ bundle install
+```
 
-* System dependencies
+Once obtained new credentials from the OAuth provider, open and update `app/config/application.rb`.
 
-* Configuration
+```
+    ...
+    # Example: bdfe2ffad2c6e5f5e19637ee8ceb46bf1c913e2
+    config.client_id = '<client_id>'
 
-* Database creation
+    # Example: bdfe2ffad2c6e5f5e19637ee8ceb46bf1c913e2
+    config.client_secret = '<client_secret>'
 
-* Database initialization
+    # Example: http://lvh.me:3001/oauth/callback
+    config.redirect_uri = '<redirect_uri>'
 
-* How to run the test suite
+    # Example: http://oauth.provider.com.au (OAuth provider)
+    config.site = '<site>'
+    ...
+```
 
-* Services (job queues, cache servers, search engines, etc.)
+## Run
 
-* Deployment instructions
+Run the server
+```
+$ rails s -p 3000
+```
 
-* ...
+and open `http://localhost:3000/`. Click on `Link Airtax` to get a new authentication token for your application so to be able to interact with the (OAuth2 pretected) endpoints.
+
+## Additional documentation
+- [Ruby on Rails](http://rubyonrails.org/)
+- [OAuth2 specs](https://oauth.net/2/)
+- [OAuth2 gem](https://github.com/oauth-xx/oauth2)
