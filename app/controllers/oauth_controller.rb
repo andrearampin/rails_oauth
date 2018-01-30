@@ -7,5 +7,6 @@ class OauthController < ApplicationController
 
   def callback
     @access_token = Oauth.new.fetch_token(params[:code])
+    AccessTokenTrace.create(access_token: @access_token.token)
   end
 end

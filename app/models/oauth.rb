@@ -1,18 +1,18 @@
 class Oauth
-  def fetch_auth
+  def fetch_auth(scope: 'all')
     client.auth_code
-          .authorize_url(redirect_uri: redirect_uri)
+          .authorize_url(redirect_uri: redirect_uri, scope: scope)
   end
 
-  def fetch_token(code)
+  def fetch_token(code, scope: 'all')
     client.auth_code.get_token(code, redirect_uri: redirect_uri,
-                                     headers: request_headers)
+                                     headers: request_headers, scope: scope)
   end
 
   private
 
   def request_headers
-    @_request_headers ||= { 'Authorization' => 'Basic some_password' }
+    @_request_headers ||= {}
   end
 
   def redirect_uri

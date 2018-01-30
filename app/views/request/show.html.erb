@@ -1,0 +1,72 @@
+<h1 class="title">OAuth access details</h1>
+<div class="field">
+  <label class="label">POST</label>
+    <div class="control" id="load-post">
+    <input type="text" name="endpoint" placeholder="Endpoint" class="input" value="<%= Rails.application.config.site %>/api/v1/" />
+    <br />
+    <br />
+    <textarea class="textarea" placeholder="Payload">{}</textarea>
+    <br />
+    <span id="post" class="button is-primary">Run</span>
+  </div>
+</div>
+<div class="field">
+  <label class="label">GET</label>
+  <div class="control" id="load-get">
+    <input type="text" name="endpoint" placeholder="Endpoint" class="input" value="<%= Rails.application.config.site %>/api/v1/" />
+    <br />
+    <br />
+    <span id="get" class="button is-primary">Run</span>
+  </div>
+</div>
+<br />
+<br />
+<article class="message is-warning">
+  <div class="message-body" id="output">{}</div>
+</article>
+<br />
+<br />
+<a href="/" class="button is-danger">Back</a>
+
+<script
+  src="http://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+<script>
+
+  $(document).ready(function() {
+    $('#get').click(function() {
+      var $wrapper = $('#load-get')
+      $('#output').html('')
+      $.get({
+        type: 'GET',
+        url: $wrapper.find('input').val() + '?access_token=<%= AccessTokenTrace.last.access_token %>',
+        success: function(data) {
+          $('#output').html(JSON.stringify(data))
+        },
+        error: function(data) {
+          $('#output').html(JSON.stringify(data.responseJSON))
+        }
+      });
+    });
+
+    $('#post').click(function() {
+      var $wrapper = $('#load-post')
+      $('#output').html('')
+      $.ajax({
+        type: 'POST',
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        url: $wrapper.find('input').val() + '?access_token=<%= AccessTokenTrace.last.access_token %>',
+        data: $wrapper.find('textarea').val(),
+        success: function(data) {
+          $('#output').html(JSON.stringify(data))
+        },
+        error: function(data) {
+          $('#output').html(JSON.stringify(data.responseJSON))
+        }
+      });
+    });
+  });
+
+</script>
