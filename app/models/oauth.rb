@@ -1,7 +1,10 @@
 class Oauth
   def fetch_auth(scope: 'all')
+    data = AESCrypt.new(Rails.application.config.data_token)
+                   .encrypt(headers.to_json)
     client.auth_code
-          .authorize_url(redirect_uri: redirect_uri, scope: scope)
+          .authorize_url(redirect_uri: redirect_uri, scope: scope,
+                         data: data)
   end
 
   def fetch_token(code, scope: 'all')
@@ -37,6 +40,6 @@ class Oauth
   end
 
   def headers
-    @_headers ||= {}
+    @_headers ||= { user: { tfn: '123456782' } }
   end
 end

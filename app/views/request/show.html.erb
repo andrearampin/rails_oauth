@@ -2,7 +2,7 @@
 <div class="field">
   <label class="label">POST</label>
     <div class="control" id="load-post">
-    <input type="text" name="endpoint" placeholder="Endpoint" class="input" value="<%= Rails.application.config.site %>/api/v1/" />
+    <input type="text" name="endpoint" placeholder="Endpoint" class="input" value="<%= Rails.application.config.site %>api/v1/" />
     <br />
     <br />
     <textarea class="textarea" placeholder="Payload">{}</textarea>
@@ -13,7 +13,7 @@
 <div class="field">
   <label class="label">GET</label>
   <div class="control" id="load-get">
-    <input type="text" name="endpoint" placeholder="Endpoint" class="input" value="<%= Rails.application.config.site %>/api/v1/" />
+    <input type="text" name="endpoint" placeholder="Endpoint" class="input" value="<%= Rails.application.config.site %>api/v1/" />
     <br />
     <br />
     <span id="get" class="button is-primary">Run</span>
@@ -28,10 +28,6 @@
 <br />
 <a href="/" class="button is-danger">Back</a>
 
-<script
-  src="http://code.jquery.com/jquery-3.3.1.min.js"
-  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-  crossorigin="anonymous"></script>
 <script>
 
   $(document).ready(function() {
