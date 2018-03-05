@@ -1,0 +1,184 @@
+<section class="hero is-info welcome is-small">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">
+        Statement Oct-Dec 2017
+      </h1>
+    </div>
+  </div>
+</section>
+<br />
+<section>
+  <div class="box">
+    <h2>Incomes</h2>
+    <br />
+    <table class="table is-striped" style="width: 100%">
+      <thead>
+        <tr>
+          <th width="40%">Category</th>
+          <th>Value ($)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Website client XYZ</td>
+          <td>$10000</td>
+        </tr>
+          <tr>
+            <td>Website client QWERTY</td>
+            <td>$20000</td>
+          </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="box">
+    <h2>Expenses</h2>
+    <br />
+    <table class="table is-striped" style="width: 100%">
+      <thead>
+        <tr>
+          <th width="40%">Category</th>
+          <th>Value ($)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Internet</td>
+          <td>$500</td>
+        </tr>
+          <tr>
+            <td>Rent Garage</td>
+            <td>$2000</td>
+          </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+<br />
+<section id="lodge">
+  <a href="#" id="submit" class="button is-danger">Lodge</a>
+</section>
+
+<script>
+var importer_uuid;
+$('#submit').click(function(e) {
+  e.preventDefault()
+  $('#submit').html('<div class="loader"></div>')
+  $.ajax({
+    type: 'POST',
+    contentType: 'application/json; charset=utf-8',
+    dataType: 'json',
+    url: 'http://localhost:3000/api/v1/importers/lodgenow/import?access_token=<%= AccessTokenTrace.last.access_token %>',
+    data: JSON.stringify({
+      incomes: [
+        {
+          category: 'Website client XYZ',
+          amount: '10000',
+          percentage: 100
+        },
+        {
+          category: 'Website client QWERTY',
+          amount: '20000',
+          percentage: 100
+        }
+      ],
+      expenses: [
+        {
+          category: 'Internet',
+          amount: '500',
+          percentage: 100
+        },
+        {
+          category: 'Rent',
+          amount: '2000',
+          percentage: 100
+        }
+      ],
+      period_uuid: 'c9c66a44-35c2-4cca-9bf5-b81a1dd17fce'
+    }),
+    success: function(data) {
+      importer_uuid = data['importer']['uuid']
+      setInterval(check, 1000);
+      // $('#load-get-endpoint').val(ENDPOINT + '/api/v1/importers/lodgenow/import/c9c66a44-35c2-4cca-9bf5-b81a1dd17fce')
+    }
+  });
+});
+
+function check() {
+  $.get('http://localhost:3000/api/v1/importers/lodgenow/import/' + importer_uuid + '?access_token=<%= AccessTokenTrace.last.access_token %>', function(data) {;
+    if(data['importer']['status'] == 'COMPLETED') {
+      window.location = "http://localhost:3000/api/v1/statements/expense/mapping/7e150257-893c-4ff9-a2bb-cbb8e0d7cf6e?access_token=" + data['access_token']
+    }
+  })
+}
+</script>
+
+<!-- c9c66a44-35c2-4cca-9bf5-b81a1dd17fce -->
+
+<!-- <div class="field">
+  <label class="label">POST</label>
+    <div class="control" id="load-post">
+    <input type="text" name="endpoint" placeholder="Endpoint" class="input" value="<%= Rails.application.config.site %>api/v1/" />
+    <br />
+    <br />
+    <textarea class="textarea" placeholder="Payload">{}</textarea>
+    <br />
+    <span id="post" class="button is-primary">Run</span>
+  </div>
+</div>
+<div class="field">
+  <label class="label">GET</label>
+  <div class="control" id="load-get">
+    <input type="text" name="endpoint" placeholder="Endpoint" class="input" value="<%= Rails.application.config.site %>api/v1/" />
+    <br />
+    <br />
+    <span id="get" class="button is-primary">Run</span>
+  </div>
+</div>
+<br />
+<br />
+<article class="message is-warning">
+  <div class="message-body" id="output">{}</div>
+</article>
+<br />
+<br />
+<a href="/" class="button is-danger">Back</a>
+
+<script>
+
+  $(document).ready(function() {
+    $('#get').click(function() {
+      var $wrapper = $('#load-get')
+      $('#output').html('')
+      $.get({
+        type: 'GET',
+        url: $wrapper.find('input').val() + '?access_token=<%= AccessTokenTrace.last.access_token %>',
+        success: function(data) {
+          $('#output').html(JSON.stringify(data))
+        },
+        error: function(data) {
+          $('#output').html(JSON.stringify(data.responseJSON))
+        }
+      });
+    });
+
+    $('#post').click(function() {
+      var $wrapper = $('#load-post')
+      $('#output').html('')
+      $.ajax({
+        type: 'POST',
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        url: $wrapper.find('input').val() + '?access_token=<%= AccessTokenTrace.last.access_token %>',
+        data: $wrapper.find('textarea').val(),
+        success: function(data) {
+          $('#output').html(JSON.stringify(data))
+        },
+        error: function(data) {
+          $('#output').html(JSON.stringify(data.responseJSON))
+        }
+      });
+    });
+  });
+
+</script> -->

@@ -13,7 +13,38 @@
       crossorigin="anonymous"></script>
   </head>
 
-  <body>
+  <body data-no-turbolinks="true">
+
+    <!-- START NAV -->
+  <nav class="navbar is-white">
+    <div class="container">
+      <div class="navbar-brand">
+        <a class="navbar-item brand-text" href="/">
+          The Awesome Company
+        </a>
+        <div class="navbar-burger burger" data-target="navMenu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+      <div id="navMenu" class="navbar-menu">
+        <div class="navbar-start">
+          <a class="navbar-item" href="/statements">
+            Statements
+          </a>
+          <a class="navbar-item" href="/">
+            Derivables
+          </a>
+          <a class="navbar-item" href="/">
+            Settings
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <!-- END NAV -->
+
     <section class="section">
       <div class="container">
         <%= yield %>
