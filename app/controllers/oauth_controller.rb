@@ -2,6 +2,7 @@ class OauthController < ApplicationController
   def index; end
 
   def show
+    AccessTokenTrace.destroy_all
     redirect_to Oauth.new.fetch_auth
   end
 

@@ -17,15 +17,21 @@ module PaymasterOauth
     # -- all .rb files in that directory are automatically loaded.
 
     # example: bdfe2ffad2c6e5f5e19637ee8ceb46bf1c913e2
-    config.client_id = '<client_id>'
+    config.client_id = ''
 
     # example: bdfe2ffad2c6e5f5e19637ee8ceb46bf1c913e2
-    config.client_secret = '<client_secret>'
+    config.client_secret = ''
+
+    # example: Pfny90c3gTSEhzPyHigVjA
+    config.web_token = ''
+
+    # example: sadjhASDfga234rASDferugic
+    config.data_token = ''
 
     # example: http://lvh.me:3001/oauth/callback
-    config.redirect_uri = '<redirect_uri>'
+    config.redirect_uri = 'http://localhost:3001/oauth/callback'
 
     # example: https://staging.airtax.com.au (OAuth provider)
-    config.site = '<site>'
+    config.site = 'http://localhost:3000/'
   end
 end

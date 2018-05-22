@@ -1,0 +1,126 @@
+<h1 class="title">LodgeNow</h1>
+<div class="field">
+  <label class="label">Period</label>
+  <div class="select">
+    <select id="select-periods">
+      <option>Select dropdown</option>
+      <option>With options</option>
+    </select>
+  </div>
+  <button class="button is-primary" id="load-periods">Load</button>
+</div>
+<div class="field">
+  <label class="label">Incomes</label>
+  <div class="field">
+    <div class="control">
+      <input class="input is-success" type="text" placeholder="Income Category" name="incomes_category" id="incomes_category" />
+    </div>
+  </div>
+  <div class="field">
+    <div class="control">
+      <input class="input is-success" type="text" placeholder="Income Value" name="incomes_value" id="incomes_value" />
+    </div>
+  </div>
+</div>
+<div class="field">
+  <label class="label">Expenses</label>
+  <div class="field">
+    <div class="control">
+      <input class="input is-warning" type="text" placeholder="Expenses Category" name="expenses_category" id="expenses_category" />
+    </div>
+  </div>
+  <div class="field">
+    <div class="control">
+      <input class="input is-warning" type="text" placeholder="Expenses Value" name="expenses_value" id="expenses_value" />
+    </div>
+  </div>
+</div>
+<button class="button is-info" id="submit">Submit</button>
+<br />
+<br />
+<div class="field">
+  <label class="label">Info</label>
+  <div class="control" id="load-get">
+    <input type="text" name="endpoint" placeholder="Endpoint" id="load-get-endpoint" class="input" />
+    <br />
+    <br />
+    <span id="get" class="button is-primary">Run</span>
+  </div>
+</div>
+<br />
+<br />
+<article class="message is-warning">
+  <div class="message-body" id="output">{}</div>
+</article>
+
+<script>
+
+  var ENDPOINT = 'http://localhost:3000'
+
+  $(document).ready(function() {
+    $('#load-periods').click(function() {
+      var $wrapper = $('#select-periods')
+      $wrapper.html('')
+      $.get({
+        type: 'GET',
+        url: ENDPOINT + '/api/v1/statements/periods/quarter?access_token=<%= AccessTokenTrace.last.access_token %>',
+        success: function(data) {
+          var output = data.periods
+          for(var index = 0; index < output.length; index++) {
+            period = output[index]
+            $wrapper.append('<option value="' + period.uuid + '">' + period.start_date + ' ' + period.end_date + '</option>')
+          }
+        }
+      })
+    })
+
+    $('#get').click(function() {
+      var $wrapper = $('#load-get')
+      $('#output').html('')
+      $.get({
+        type: 'GET',
+        url: $wrapper.find('input').val() + '?access_token=<%= AccessTokenTrace.last.access_token %>',
+        success: function(data) {
+          $('#output').html(JSON.stringify(data))
+        },
+        error: function(data) {
+          $('#output').html(JSON.stringify(data.responseJSON))
+        }
+      })
+    })
+
+    $('#submit').click(function() {
+      var period = $('#select-periods').select().val()
+      $.ajax({
+        type: 'POST',
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        url: ENDPOINT + '/api/v1/importers/lodgenow/import?access_token=<%= AccessTokenTrace.last.access_token %>',
+        data: JSON.stringify({
+          incomes: [
+            {
+              category: $('#incomes_category').val(),
+              amount: $('#incomes_value').val(),
+              percentage: 100
+            }
+          ],
+          expenses: [
+            {
+              category: $('#expenses_category').val(),
+              amount: $('#expenses_value').val(),
+              percentage: 100
+            }
+          ],
+          period_uuid: period
+        }),
+        success: function(data) {
+          $('#load-get-endpoint').val(ENDPOINT + '/api/v1/importers/lodgenow/import/' + data.importer.uuid)
+        },
+        error: function(data) {
+          $('#output').html(JSON.stringify(data.responseJSON))
+        }
+      });
+    });
+  })
+
+</script>
