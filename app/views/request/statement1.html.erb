@@ -1,0 +1,146 @@
+<section class="hero is-info welcome is-small">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">
+        Statement Jul-Sep 2017
+      </h1>
+    </div>
+  </div>
+</section>
+<br />
+<section>
+  <div class="box">
+    <h2>Incomes</h2>
+    <br />
+    <table class="table is-striped" style="width: 100%">
+      <thead>
+        <tr>
+          <th width="40%">Category</th>
+          <th>Value ($)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Website client BORNG COMPANY</td>
+          <td>$20000</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="box">
+    <h2>Expenses</h2>
+    <br />
+    <table class="table is-striped" style="width: 100%">
+      <thead>
+        <tr>
+          <th width="40%">Category</th>
+          <th>Value ($)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Internet</td>
+          <td>$500</td>
+        </tr>
+          <tr>
+            <td>Rent Garage</td>
+            <td>$2000</td>
+          </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+<br />
+<section id="lodge">
+  <a href="#" id="submit" class="button is-danger">Lodge</a>
+</section>
+
+<script>
+var importer_uuid;
+$('#submit').click(function(e) {
+  e.preventDefault()
+  $('#submit').html('<div class="loader"></div>')
+  $.ajax({
+    type: 'POST',
+    contentType: 'application/json; charset=utf-8',
+    dataType: 'json',
+    url: 'http://lvh.me:3000/api/v1/importers/lodgenow/import?access_token=<%= AccessTokenTrace.last.access_token %>',
+    data: JSON.stringify({
+      incomes: [
+        {
+          category: 'client BORNG COMPANY',
+          amount: '100000',
+          percentage: 100,
+          gst: '2000'
+        }
+        // ,
+        // {
+        //   category: 'client BORNG COMPANY',
+        //   amount: '20000',
+        //   percentage: 100,
+        //   gst: '1818.18'
+        // },
+        // {
+        //   category: 'client BORNG COMPANY 2',
+        //   amount: '30000',
+        //   percentage: 100
+        // }
+      ],
+      expenses: [
+        {
+          amount: '500',
+          percentage: 100,
+          category: 'fgh64'
+        },
+        {
+          category: 'miscellaneous',
+          amount: '2000',
+          percentage: 100
+        },
+        {
+          category: 'sdsf00129',
+          amount: '2000',
+          percentage: 100
+        },
+        {
+          category: 'v35y674',
+          amount: '2200',
+          percentage: 100,
+          gst: '200'
+        },
+        {
+          category: '67346743',
+          amount: '2000',
+          percentage: 100,
+          gst: '181.82'
+        },
+        {
+          category: 'sdfy66h64y6',
+          amount: '2000',
+          percentage: 100,
+          gst: 0
+        }
+      ],
+      period_uuid: '3adc3513-2618-44c5-b10a-7f99ca923b95'
+    }),
+    success: function(data) {
+      importer_uuid = data['importer']['uuid']
+      setInterval(check, 1000);
+      // $('#load-get-endpoint').val(ENDPOINT + '/api/v1/importers/lodgenow/import/3adc3513-2618-44c5-b10a-7f99ca923b95')
+    }
+  });
+});
+
+function check() {
+  $.get('http://lvh.me:3000/api/v1/importers/lodgenow/import/' + importer_uuid + '?access_token=<%= AccessTokenTrace.last.access_token %>', function(data) {
+    if(data['importer']['status'] == 'COMPLETED') {
+      console.log(data);
+      window.location = 'http://lvh.me:3000/api/v1/statements/expense/mapping/' + data['statement_uuid'] + '?access_token=' + data['access_token']
+      console.log('http://lvh.me:3000/api/v1/statements/expense/mapping/' + data['statement_uuid'] + '?access_token=' + data['access_token']);
+      // $.get('http://lvh.me:3000/api/v1/statements/' + data['statement_uuid'] + '?access_token=' + data['access_token'], function(data) {
+      //   console.log(data);
+      // })
+    }
+  })
+}
+</script>

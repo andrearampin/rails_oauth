@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 # Encrypt data with AES 256 ECB PKCS5Padding
 class AESCrypt
-  CIPHER_ALGORITHOM = 'AES-256-CBC'.freeze
+  CIPHER_ALGORITHOM = 'AES-256-CBC'
   PASSWORD_CHARACTER_LENGTH = 32
   CIPHER_IV_LENGTH = 16
 

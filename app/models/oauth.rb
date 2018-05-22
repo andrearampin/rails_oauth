@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Oauth
   def fetch_auth(scope: 'all')
     data = AESCrypt.new(Rails.application.config.data_token)
@@ -40,6 +42,8 @@ class Oauth
   end
 
   def headers
-    @_headers ||= { user: { tfn: '123456782' } }
+    @_headers ||= { user: {
+      br: nil, tfn: '123456782', first_name: 'Andrea', last_name: 'Pantović'
+    } }
   end
 end

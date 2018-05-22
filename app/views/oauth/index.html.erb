@@ -9,5 +9,8 @@
 </section>
 <br />
 <section>
-  <a href="/oauth" class="button is-info">Connect to Airtax</a>
+  <a href="/oauth" id="oauth" class="button is-info">Connect to Airtax</a>
 </section>
+<script>
+  $('#oauth').on('click', function() { $(this).html('<div class="loader"></div>') });
+</script>
